@@ -3,20 +3,18 @@ const mongoose = require('mongoose');
 const Dishes = require('./models/dishes');
 
 const url = 'mongodb://localhost:27017/conFusion';
-const connect = mongoose.connect(url, { useUnifiedTopology: true , useNewUrlParser: true });
+const connect = mongoose.connect(url, { useCreateIndex: true , useUnifiedTopology: true , useNewUrlParser: true });
 
 connect.then((db) => {
     console.log('Connected correctly to server');
-    var newDish = Dishes({
+    var newDish = Dishes.create({
         name: 'Uthappizza',
         description: 'test'
-    });
-
-    newDish.save()
+    })
         .then((dish) => {
             console.log(dish);
 
-            Dishes.find({}).exec();
+           return Dishes.find({}).exec();
         })
         .then((dishes) => {
             console.log(dishes);
